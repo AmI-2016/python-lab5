@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show tasks</title>
+</head>
+<body>
+<h1>Existing tasks</h1>
+     <p>Here you can see all existing tasks</p>
+<ul>
+    {% for task in tasks_list %}
+        <li>{{ task }}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{{ url_for('index') }}">Come back home</a></p>
+
+</body>
+</html>
