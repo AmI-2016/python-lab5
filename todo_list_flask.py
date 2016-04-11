@@ -35,13 +35,13 @@ def index():
 
 @app.route('/insert_task.html', methods=['POST'])
 def insert_task():
-    if ('string_for_insertion' in request.form and request.form['string_for_insertion']!=''):
-        string_for_insertion = request.form['string_for_insertion']
-        if ('urgent_for_insertion' in request.form and request.form['urgent_for_insertion'] == 'on'):
-            urgent_for_insertion = 1
+    if ('description' in request.form and request.form['description']!=''):
+        description = request.form['description']
+        if ('urgent' in request.form and request.form['urgent'] == 'on'):
+            urgent = 1
         else:
-            urgent_for_insertion = 0
-        db_interaction.db_insert_task(string_for_insertion, urgent_for_insertion)
+            urgent = 0
+        db_interaction.db_insert_task(description, urgent)
 
     # back to the home page
     return redirect(url_for('index'))
