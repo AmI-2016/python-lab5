@@ -5,19 +5,21 @@
     <title>Welcome to the Todo List Manager</title>
 </head>
 <body>
-<h1>Welcome to the Todo List Manager</h1>
-<p>Select the action you want to perform from the following menu:</p>
-<ul>
-    <li>
-        <a href="{{ url_for('insert_task') }}">insert a new task</a>
-    </li>
-    <li>
-        <a href="{{ url_for('show_tasks') }}">show all existing tasks sorted in alphabetic order</a>
-    </li>
-    <li>
-        <a href="{{ url_for('delete_task') }}">remove all the existing tasks that contain a provided string</a>
-    </li>
-</ul>
+    <h1>Welcome to the Todo List Manager</h1>
+    <p>Here you can see all existing tasks</p>
+    <ul>
+        {% for task in tasks_list %}
+            <li>{{ task }} <a href="{{ url_for('delete_task',string_for_delete=task) }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('insert_task') }}" method="post">
+        <p>
+            Insert a new task:  <input type="text" name="string_for_insertion">
+            Urgent?  <input type="checkbox" name="urgent_for_insertion">
+            <input type="submit" value="Enter">
+        </p>
+    </form>
 
 </body>
 </html>
