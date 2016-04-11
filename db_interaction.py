@@ -1,5 +1,5 @@
 '''
-Created on Apr 04, 2016
+Created on Apr 11, 2016
 Copyright (c) 2015-2016 Teodoro Montanaro
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,8 +50,6 @@ def db_insert_task(text, urgent):
 
 def get_sorted_tasks_list():
     '''
-    :param tasks_list: list of existing tasks
-
     Get existing tasks from the database
     '''
 
@@ -68,10 +66,8 @@ def get_sorted_tasks_list():
 
     results = cursor.fetchall()
 
-    # print results
-
     for task in results:
-        tasks_list.append((task[0],task[1]))  #each "task" is a tuple, so we have to take the first element of it
+        tasks_list.append((task[0],task[1]))  #we create a list of tuples (key, value) where key is the task id and the value is the text of the task
 
     conn.close()
 
@@ -79,9 +75,9 @@ def get_sorted_tasks_list():
 
 def db_remove_task_by_id(id_task):
     '''
-    :param text: text (or part of it) of the task we want to remove from the db
+    :param id_task: unique identificator for the task we want to remove from the db
 
-    This method remove from the db all the tasks that contain the specified string
+    This method remove from the db a specific task
     '''
 
     # prepare the query text

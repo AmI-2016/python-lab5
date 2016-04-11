@@ -29,30 +29,39 @@ def hello_world():
 
 @app.route('/index.html')
 def index():
+    #get the ordered list from the database
     tasks_list = db_interaction.get_sorted_tasks_list()
     return render_template('index.html', tasks_list=tasks_list)
 
 
 @app.route('/insert_task.html', methods=['POST'])
 def insert_task():
+    # check for parameter received by POST method
     if ('description' in request.form and request.form['description']!=''):
+        #get description (the task)
         description = request.form['description']
+        # transform value received through the checkbox in a 0/1 value
         if ('urgent' in request.form and request.form['urgent'] == 'on'):
             urgent = 1
         else:
             urgent = 0
+        #insert the new task in the database
         db_interaction.db_insert_task(description, urgent)
 
-    # back to the home page
+    # redirect to the home page
     return redirect(url_for('index'))
 
 @app.route('/delete_task.html', methods=['GET'])
 def delete_task():
+
+    # check for parameter received by GET method
     if 'id_task' in request.args:
+        #get the id of the task we want to remove
         id_task = request.args.get('id_task')
+        # remove the item from the db
         db_interaction.db_remove_task_by_id(id_task)
 
-    # back to the home page
+    # redirect to the home page
     return redirect(url_for('index'))
 
 
