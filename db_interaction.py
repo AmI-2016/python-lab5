@@ -16,6 +16,7 @@ limitations under the License
 '''
 
 import sqlite3
+import operator
 
 
 def db_insert_task(text, urgent):
@@ -55,7 +56,7 @@ def get_sorted_tasks_list():
     '''
 
     tasks_list = []
-    sql = "SELECT todo FROM task order by todo ASC" #here we order data using "order by"
+    sql = "SELECT id_task, todo FROM task order by todo ASC" #here we order data using "order by"
     conn = sqlite3.connect("task_list.db")
 
     # to remove u from sqlite3 cursor.fetchall() results
@@ -70,13 +71,13 @@ def get_sorted_tasks_list():
     # print results
 
     for task in results:
-        tasks_list.append(task[0]) #each "task" is a tuple, so we have to take the first element of it
+        tasks_list.append((task[0],task[1]))  #each "task" is a tuple, so we have to take the first element of it
 
     conn.close()
 
     return tasks_list
 
-def db_remove_task(text):
+def db_remove_task_by_id(id_task):
     '''
     :param text: text (or part of it) of the task we want to remove from the db
 
@@ -84,11 +85,8 @@ def db_remove_task(text):
     '''
 
     # prepare the query text
-    sql = "delete from task where todo LIKE ?"
+    sql = "delete from task where id_task = ?"
 
-    # add percent sign (%) wildcard to select all the strings that contain specified text
-    # <<the multiple character percent sign (%) wildcardcan be used to represent any number of characters in a value match>>
-    text = "%"+text + "%"
 
     #connect to the db
     conn = sqlite3.connect("task_list.db")
@@ -96,7 +94,7 @@ def db_remove_task(text):
 
     try:
         #execute the query passing the needed parameters
-        cursor.execute(sql, (text, ) )
+        cursor.execute(sql, (id_task, ) )
         #commit all pending executed queries in the connection
         conn.commit()
     except Exception,e:

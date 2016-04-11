@@ -9,7 +9,7 @@
     <p>Here you can see all existing tasks</p>
     <ul>
         {% for task in tasks_list %}
-            <li>{{ task }} <a href="{{ url_for('delete_task',string_for_delete=task) }}">Delete</a></li>
+            <li>{{ task[1] }} <a href="{{ url_for('delete_task',id_task=task[0]) }}">Delete</a></li>
         {% endfor %}
     </ul>
 

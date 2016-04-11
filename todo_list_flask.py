@@ -48,9 +48,9 @@ def insert_task():
 
 @app.route('/delete_task.html', methods=['GET'])
 def delete_task():
-    if 'string_for_delete' in request.args:
-        string_for_delete = request.args.get('string_for_delete')
-        db_interaction.db_remove_task(string_for_delete)
+    if 'id_task' in request.args:
+        id_task = request.args.get('id_task')
+        db_interaction.db_remove_task_by_id(id_task)
 
     # back to the home page
     return redirect(url_for('index'))
